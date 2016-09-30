@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.mooneyserver.dublinpubs.shite_talking.protocol";
+
+message SendableMessage {
+    string senderIdentifier = 1;
+    string receiverIdentifer = 2;
+    string msgText = 3;
+    string msgId = 4;
+}
+
+message MessageReceived {
+    string msgId = 1;
+}
+
+message ActiveHeartBeat {
+    string clientIdentifier = 1;
+}
+
+service ChatService {
+
+    rpc MarkClientActive(ActiveHeartBeat) returns (stream SendableMessage);
+
+    rpc SendMessagesForClient(stream SendableMessage) returns (stream MessageReceived);
+}
